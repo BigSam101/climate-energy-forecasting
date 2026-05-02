@@ -65,7 +65,7 @@ These findings are important for:
 ## 📁 Project Structure
 
 - [data/](./data)  
-  Raw dataset (not included due to size/privacy). Stored locally.
+  Raw dataset (not included as I have no permission to share). Stored locally.
 
 - [gee/](./gee)  
   Google Earth Engine scripts used to extract ERA5-Land weather data.
