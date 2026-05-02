@@ -64,6 +64,10 @@ These findings are important for:
 
 ## 📁 Project Structure
 
+- [data/](./data) → raw data (not included)
+- [notebooks/](./notebooks) → analysis workflow
+- [src/](./src) → reusable Python modules
+- [outputs/](./outputs) → figures and tables
 
 ---
 
