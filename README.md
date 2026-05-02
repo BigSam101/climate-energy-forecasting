@@ -64,10 +64,24 @@ These findings are important for:
 
 ## 📁 Project Structure
 
-- [data/](./data) → raw data (not included)
-- [notebooks/](./notebooks) → analysis workflow
-- [src/](./src) → reusable Python modules
-- [outputs/](./outputs) → figures and tables
+- [data/](./data)  
+  Raw dataset (not included due to size/privacy). Stored locally.
+
+- [gee/](./gee)  
+  Google Earth Engine scripts used to extract ERA5-Land weather data.
+
+- [notebooks/](./notebooks)  
+  End-to-end analysis workflow: data preparation, modeling, and evaluation.
+
+- [src/](./src)  
+  Modular Python utilities for:
+  - data processing  
+  - SARIMAX models  
+  - XGBoost models  
+  - evaluation and metrics  
+
+- [outputs/](./outputs)  
+  Final figures and tables used in the analysis.
 
 ---
 
