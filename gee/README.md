@@ -50,23 +50,13 @@ This script performs the following steps:
 
 1. Open the script in the GEE Code Editor
 2. Run the script
-3. Export data via:
-
-```id="g1"
-Export.table.toDrive(...)
-```
-
-4. Download the exported file and place it in:
-
-```id="g2"
-data/nordic_energy_climate_df.csv
-```
+3. Export the data
 
 ---
 
 ## 🔗 GEE Script
 
-(https://code.earthengine.google.com/eecce17b3b7bff34db99d6ec8df4d60a)
+https://code.earthengine.google.com/eecce17b3b7bff34db99d6ec8df4d60a
 
 ---
 

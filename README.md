@@ -5,7 +5,7 @@ Accurate electricity demand forecasting is essential for power system planning a
 
 This project analyzes and forecasts daily electricity demand in **Norway, Sweden, and Finland**, focusing on how **temperature and demand volatility influence model performance**.
 
-📄 [Read the full paper on SSRN](https://dx.doi.org/10.2139/ssrn.6603718)
+📄 [Read the full working paper on SSRN](https://dx.doi.org/10.2139/ssrn.6603718)
 
 ---
 
@@ -70,7 +70,7 @@ These findings are important for:
   Raw dataset (not included as I have no permission to share). Stored locally.
 
 - [gee/](./gee)  
-  Google Earth Engine scripts used to extract ERA5-Land weather data.
+  Google Earth Engine scripts used to extract Population-Weighted ERA5-Land weather data.
 
 - [notebooks/](./notebooks)  
   End-to-end analysis workflow: data preparation, modeling, and evaluation.
