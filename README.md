@@ -5,6 +5,8 @@ Accurate electricity demand forecasting is essential for power system planning a
 
 This project analyzes and forecasts daily electricity demand in **Norway, Sweden, and Finland**, focusing on how **temperature and demand volatility influence model performance**.
 
+📄 [Read the full paper on SSRN](https://dx.doi.org/10.2139/ssrn.6603718)
+
 ---
 
 ## ⚙️ Methodology
