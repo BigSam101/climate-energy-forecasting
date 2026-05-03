@@ -20,22 +20,40 @@ def create_lag_features(df, countries, max_lag=7):
 
 
 def create_temperature_features(df):
+    import numpy as np
+
+    country_code_map = {
+        "Norway": "NO",
+        "Sweden": "SE",
+        "Finland": "FI"
+    }
+
     countries = ["Norway", "Sweden", "Finland"]
 
     for country in countries:
-        df[f'HDD_{country}'] = np.maximum(0, 17 - df[f'Temp - {country}'])
-        df[f'CDD_{country}'] = np.maximum(0, df[f'Temp - {country}'] - 21)
+        code = country_code_map[country]
 
-        cold_thresh = df[f'Temp - {country}'].quantile(0.05)
-        warm_thresh = df[f'Temp - {country}'].quantile(0.95)
+        df[f"HDD_{country}"] = np.maximum(0, 17 - df[f"Temp - {country}"])
+        df[f"CDD_{country}"] = np.maximum(0, df[f"Temp - {country}"] - 21)
 
-        code = country[:2].upper()
+        cold_thresh = df[f"Temp - {country}"].quantile(0.05)
+        warm_thresh = df[f"Temp - {country}"].quantile(0.95)
 
-        df[f'Extreme_Cold_{code}'] = (df[f'Temp - {country}'] <= cold_thresh).astype(int)
-        df[f'Extreme_Warm_{code}'] = (df[f'Temp - {country}'] >= warm_thresh).astype(int)
+        df[f"Extreme_Cold_{code}"] = (
+            df[f"Temp - {country}"] <= cold_thresh
+        ).astype(int)
 
-        df[f'HDD_Extreme_{code}'] = df[f'HDD_{country}'] * df[f'Extreme_Cold_{code}']
-        df[f'CDD_Extreme_{code}'] = df[f'CDD_{country}'] * df[f'Extreme_Warm_{code}']
+        df[f"Extreme_Warm_{code}"] = (
+            df[f"Temp - {country}"] >= warm_thresh
+        ).astype(int)
+
+        df[f"HDD_Extreme_{code}"] = (
+            df[f"HDD_{country}"] * df[f"Extreme_Cold_{code}"]
+        )
+
+        df[f"CDD_Extreme_{code}"] = (
+            df[f"CDD_{country}"] * df[f"Extreme_Warm_{code}"]
+        )
 
     return df
 

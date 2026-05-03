@@ -67,7 +67,7 @@ These findings are important for:
 ## 📁 Project Structure
 
 - [data/](./data)  
-  Raw dataset (not included as I have no permission to share). Stored locally.
+  Raw dataset (not included as I do not have the permission to share the ENTSO-E data publicly).
 
 - [gee/](./gee)  
   Google Earth Engine scripts used to extract Population-Weighted ERA5-Land weather data.

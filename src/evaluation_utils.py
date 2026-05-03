@@ -426,7 +426,7 @@ def save_evaluation_outputs(
     performance_by_type_all_df,
     winners_all_df,
     dm_table_clean,
-    output_dir="outputs/tables"
+    output_dir="../outputs/tables"
 ):
     os.makedirs(output_dir, exist_ok=True)
 

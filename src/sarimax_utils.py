@@ -1,7 +1,6 @@
 import itertools
 import pandas as pd
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-
 from metrics import rmse, mae, compute_metrics
 
 
@@ -48,7 +47,8 @@ def forecast_sarimax_model(results, test_data, target_col, exog_vars=None):
 
     return y_test_log, y_pred_log
 
-
+# This function performs a comprehensive grid search over specified SARIMAX parameters for multiple model specifications. 
+# It evaluates each model based on RMSE, MAE, AIC, and BIC, ranks
 def sarimax_grid_search(
     train_data,
     val_data,
@@ -67,13 +67,20 @@ def sarimax_grid_search(
     d=0,
     D=1,
     s=7,
-    top_n=5
+    top_n=5,
+    verbose=True
 ):
+
     results_list = []
     selected_models = {}
     final_results_dict = {}
 
     for spec_name, exog_vars in specs.items():
+
+        if verbose:
+            print("\n" + "=" * 70)
+            print(f"RUNNING GRID SEARCH FOR: {spec_name}")
+            print("=" * 70)
 
         train_model = train_data[[target_col] + exog_vars].dropna().copy()
         val_model = val_data[[target_col] + exog_vars].dropna().copy()
@@ -83,6 +90,10 @@ def sarimax_grid_search(
 
         y_val = val_model[target_col]
         X_val = val_model[exog_vars]
+
+        if verbose:
+            print(f"Training observations   : {len(y_train)}")
+            print(f"Validation observations : {len(y_val)}")
 
         spec_results = []
 
@@ -99,7 +110,11 @@ def sarimax_grid_search(
                         enforce_invertibility=False
                     )
 
-                    results = model.fit(disp=False, cov_type="robust")
+                    results = model.fit(
+                        disp=False,
+                        cov_type="robust",
+                        maxiter=500
+                    )
 
                     forecast = results.get_forecast(
                         steps=len(y_val),
@@ -107,10 +122,19 @@ def sarimax_grid_search(
                     )
 
                     y_pred_log = forecast.predicted_mean
-                    y_val_aligned, y_pred_log = y_val.align(y_pred_log, join="inner")
+                    y_val_aligned, y_pred_log = y_val.align(
+                        y_pred_log,
+                        join="inner"
+                    )
 
                     rmse_val = rmse(y_val_aligned, y_pred_log)
                     mae_val = mae(y_val_aligned, y_pred_log)
+
+                    if verbose:
+                        print(
+                            f"{spec_name} | order={order}, seasonal={seasonal_order}, "
+                            f"RMSE(log)={rmse_val:.4f}, AIC={results.aic:.3f}"
+                        )
 
                     row = {
                         "Country": country,
@@ -132,28 +156,54 @@ def sarimax_grid_search(
                     spec_results.append(row)
                     results_list.append(row)
 
-                except Exception:
+                except Exception as e:
+                    if verbose:
+                        print(
+                            f"Skipped {spec_name} | order={order}, "
+                            f"seasonal={seasonal_order} -> {e}"
+                        )
                     continue
 
         spec_grid_results = pd.DataFrame(spec_results)
 
         if spec_grid_results.empty:
+            if verbose:
+                print(f"No successful models for specification: {spec_name}")
             continue
 
         spec_grid_results = spec_grid_results.sort_values(
             by=["RMSE (log)", "MAE (log)", "AIC", "BIC"]
         ).reset_index(drop=True)
 
-        spec_grid_results["RMSE Rank"] = spec_grid_results["RMSE (log)"].rank(method="dense").astype(int)
-        spec_grid_results["MAE Rank"] = spec_grid_results["MAE (log)"].rank(method="dense").astype(int)
-        spec_grid_results["AIC Rank"] = spec_grid_results["AIC"].rank(method="dense").astype(int)
-        spec_grid_results["BIC Rank"] = spec_grid_results["BIC"].rank(method="dense").astype(int)
+        spec_grid_results["RMSE Rank"] = (
+            spec_grid_results["RMSE (log)"]
+            .rank(method="dense")
+            .astype(int)
+        )
+
+        spec_grid_results["MAE Rank"] = (
+            spec_grid_results["MAE (log)"]
+            .rank(method="dense")
+            .astype(int)
+        )
+
+        spec_grid_results["AIC Rank"] = (
+            spec_grid_results["AIC"]
+            .rank(method="dense")
+            .astype(int)
+        )
+
+        spec_grid_results["BIC Rank"] = (
+            spec_grid_results["BIC"]
+            .rank(method="dense")
+            .astype(int)
+        )
 
         spec_grid_results["Combined Score"] = (
-            spec_grid_results["RMSE Rank"] +
-            spec_grid_results["MAE Rank"] +
-            spec_grid_results["AIC Rank"] +
-            spec_grid_results["BIC Rank"]
+            spec_grid_results["RMSE Rank"]
+            + spec_grid_results["MAE Rank"]
+            + spec_grid_results["AIC Rank"]
+            + spec_grid_results["BIC Rank"]
         )
 
         top_models = spec_grid_results.nsmallest(top_n, "RMSE (log)").copy()
@@ -162,23 +212,72 @@ def sarimax_grid_search(
 
         selected_models[spec_name] = selected_model
 
+        display_cols = [
+            "order",
+            "seasonal_order",
+            "RMSE (log)",
+            "MAE (log)",
+            "AIC",
+            "BIC",
+            "RMSE Rank",
+            "AIC Rank",
+            "Combined Score"
+        ]
+
+        if verbose:
+            print("\n" + "=" * 70)
+            print(f"TOP {top_n} MODELS FOR {spec_name}")
+            print("=" * 70)
+            print(top_models[display_cols].to_string(index=False))
+
+            print("\n" + "=" * 70)
+            print(f"SELECTED MODEL FOR {spec_name}")
+            print("=" * 70)
+            print(selected_model[display_cols].to_string())
+
         best_order = selected_model["order"]
         best_seasonal_order = selected_model["seasonal_order"]
 
-        final_results = fit_sarimax_model(
-            train_data=development_data,
-            target_col=target_col,
-            exog_vars=exog_vars,
+        development_model = development_data[[target_col] + exog_vars].dropna().copy()
+        y_dev = development_model[target_col]
+        X_dev = development_model[exog_vars]
+
+        final_model = SARIMAX(
+            y_dev,
+            exog=X_dev,
             order=best_order,
-            seasonal_order=best_seasonal_order
+            seasonal_order=best_seasonal_order,
+            enforce_stationarity=False,
+            enforce_invertibility=False
+        )
+
+        final_results = final_model.fit(
+            disp=False,
+            cov_type="robust",
+            maxiter=500
         )
 
         final_results_dict[spec_name] = final_results
 
+        if verbose:
+            print("\n" + "=" * 70)
+            print(f"FINAL REFIT SUMMARY FOR {spec_name}")
+            print("=" * 70)
+            print(final_results.summary())
+
     grid_results = pd.DataFrame(results_list)
 
-    selected_summary_df = pd.DataFrame([
-        {
+    if grid_results.empty:
+        raise ValueError("No models were successfully estimated for any specification.")
+
+    grid_results = grid_results.sort_values(
+        by=["Specification", "RMSE (log)", "MAE (log)", "AIC", "BIC"]
+    ).reset_index(drop=True)
+
+    selected_rows = []
+
+    for spec_name, selected_model in selected_models.items():
+        selected_rows.append({
             "Country": country,
             "Specification": spec_name,
             "Forecast Year": forecast_year,
@@ -189,13 +288,28 @@ def sarimax_grid_search(
             "MAE (log)": selected_model["MAE (log)"],
             "AIC": selected_model["AIC"],
             "BIC": selected_model["BIC"]
-        }
-        for spec_name, selected_model in selected_models.items()
-    ])
+        })
+
+    selected_summary_df = (
+        pd.DataFrame(selected_rows)
+        .sort_values("RMSE (log)")
+        .reset_index(drop=True)
+    )
+
+    if verbose:
+        print("\n" + "=" * 70)
+        print("COMBINED GRID SEARCH RESULTS")
+        print("=" * 70)
+        print(grid_results.head(20))
+
+        print("\n" + "=" * 70)
+        print("SELECTED MODEL SUMMARY BY SPECIFICATION")
+        print("=" * 70)
+        print(selected_summary_df)
 
     return grid_results, selected_summary_df, selected_models, final_results_dict
 
-
+# SARIMAX COMPARE 
 def compare_sarimax_models(
     model_specs,
     development_data,
@@ -203,10 +317,14 @@ def compare_sarimax_models(
     target_col,
     country
 ):
+    import pandas as pd
+    from metrics import compute_metrics
+
     fitted_models = {}
     comparison_rows = []
 
     for model_name, spec in model_specs.items():
+
         results = fit_sarimax_model(
             train_data=development_data,
             target_col=target_col,
