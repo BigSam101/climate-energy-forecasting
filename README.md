@@ -67,7 +67,7 @@ These findings are important for:
 ## 📁 Project Structure
 
 - [data/](./data)  
-  Raw dataset (not included as I do not have the permission to share the ENTSO-E data publicly).
+  Raw dataset (not included due to ENTSO-E data access restrictions).
 
 - [gee/](./gee)  
   Google Earth Engine scripts used to extract Population-Weighted ERA5-Land weather data.
@@ -84,6 +84,39 @@ These findings are important for:
 
 - [outputs/](./outputs)  
   Final figures and tables used in the analysis.
+
+---
+
+## 🌍 Climate Change Visualization Tool
+
+The `scripts/` folder includes an interactive script that allows users to compare seasonal temperature patterns across different regions using **Google Earth Engine (GEE)**.
+
+### Default comparison:
+- **North:** Norway, Sweden, Finland  
+- **South:** Spain, Portugal  
+- **Years:** 1990 vs 2025  
+
+### Requirements
+
+Users must create their own Google Earth Engine account:
+
+👉 https://earthengine.google.com/
+
+Authenticate locally:
+
+```bash
+earthengine authenticate
+```
+
+---
+
+<p align="center">
+  <img src="outputs/figures/north_south_seasonal_temperature_1990_2025.png" width="850"/>
+</p>
+
+<p align="center">
+  <em>Figure 1: Seasonal mean temperature comparison between Northern Europe and Southern Europe.</em>
+</p>
 
 ---
 
