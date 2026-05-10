@@ -5,6 +5,8 @@ Accurate electricity demand forecasting is essential for power system planning a
 
 This project analyzes and forecasts daily electricity demand in **Norway, Sweden, and Finland**, focusing on how **temperature and demand volatility influence model performance**.
 
+The analysis explicitly accounts for **extreme temperature events**, showing that demand responses are nonlinear and vary across regimes.
+
 📄 [Read the full working paper on SSRN](https://dx.doi.org/10.2139/ssrn.6603718)
 
 ---
@@ -28,6 +30,8 @@ Forecast performance is evaluated under **different demand regimes**, defined by
 - **Demand volatility** (based on large day-to-day changes)
 - **Temperature-driven vs non-temperature-driven periods**
 
+The analysis also captures **nonlinear temperature effects** by combining standard temperature measures (HDD/CDD) with **extreme temperature indicators**, allowing demand responses to vary across regimes.
+
 ---
 
 ## 📊 Evaluation
@@ -45,12 +49,26 @@ Model performance is assessed using:
 ## 🔍 Key Findings
 
 - Including **weather variables significantly improves forecast accuracy**
+- **Extreme temperature effects are substantial**, highlighting nonlinear demand responses
+- Standard **HDD/CDD measures alone are not sufficient** to capture temperature-driven demand dynamics
 - **SARIMAX performs better** during temperature-driven volatility
 - **XGBoost performs better** when volatility is not temperature-driven
 - In Finland, where temperature sensitivity is weaker, model differences are smaller
 
 👉 Overall:
 > Forecast performance depends on how model structure interacts with temperature and demand regimes.
+
+---
+
+## 📊 Nonlinear Temperature Effects
+
+<p align="center">
+  <img src="outputs/figures/baseline_extreme_cold_sensitivity.png" width="900"/>
+</p>
+
+<p align="center">
+  <em>Figure: Comparison of HDD-based (left) and extreme cold (right) demand sensitivities across countries. While HDD effects decline from Norway to Sweden to Finland, extreme cold responses remain strong and follow a different pattern, highlighting nonlinear and regime-dependent demand dynamics.</em>
+</p>
 
 ---
 
