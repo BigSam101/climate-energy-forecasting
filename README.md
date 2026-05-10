@@ -67,7 +67,7 @@ Model performance is assessed using:
 </p>
 
 <p align="center">
-  <em>Figure: Comparison of HDD-based (left) and extreme cold (right) demand sensitivities across countries. While HDD effects decline from Norway to Sweden to Finland, extreme cold responses remain strong and follow a different pattern, highlighting nonlinear and regime-dependent demand dynamics.</em>
+  <em>Figure 1: Comparison of HDD-based (left) and extreme cold (right) demand sensitivities across countries. While HDD effects decline from Norway to Sweden to Finland, extreme cold responses remain strong and follow a different pattern, highlighting nonlinear and regime-dependent demand dynamics.</em>
 </p>
 
 ---
@@ -133,7 +133,7 @@ earthengine authenticate
 </p>
 
 <p align="center">
-  <em>Figure 1: Seasonal mean temperature comparison between Northern Europe and Southern Europe.</em>
+  <em>Figure 2: Seasonal mean temperature comparison between Northern Europe and Southern Europe.</em>
 </p>
 
 ---
