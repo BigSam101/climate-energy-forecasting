@@ -107,12 +107,25 @@ These findings are important for:
 
 ## 🌍 Climate Change Visualization Tool
 
-The `scripts/` folder includes an interactive script that allows users to compare seasonal temperature patterns across different regions using **Google Earth Engine (GEE)**.
+The `scripts/` folder includes a Google Earth Engine (GEE) script that visualizes regional climate-change patterns using ERA5-Land temperature data.
+
+Instead of comparing two individual years, the tool compares multi-year seasonal averages:
+
+- **Baseline period:** 1990–1999  
+- **Recent period:** 2016–2025  
+
+The figure reports seasonal temperature change as:
+
+\[
+\Delta T = \overline{T}_{2016-2025} - \overline{T}_{1990-1999}
+\]
 
 ### Default comparison:
 - **North:** Norway, Sweden, Finland  
 - **South:** Spain, Portugal  
-- **Years:** 1990 vs 2025  
+- **Seasons:** Winter and summer  
+
+The numerical labels show country-level average seasonal warming, while the small colored strips below the labels indicate recent-period absolute seasonal temperature levels during 2016–2025.
 
 ### Requirements
 
@@ -129,11 +142,11 @@ earthengine authenticate
 ---
 
 <p align="center">
-  <img src="outputs/figures/north_south_seasonal_temperature_1990_2025.png" width="850"/>
+  <img src="outputs/figures/north_south_temperature_comparison.png" width="850"/>
 </p>
 
 <p align="center">
-  <em>Figure 2: Seasonal mean temperature comparison between Northern Europe and Southern Europe.</em>
+  <em>Figure 2: Seasonal near-surface temperature change between 1990–1999 and 2016–2025 across Northern and Southern Europe. Numerical labels indicate country-level average seasonal warming, while colored strips below labels represent recent-period absolute seasonal temperature levels during 2016–2025. </em>
 </p>
 
 ---
