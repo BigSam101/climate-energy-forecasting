@@ -140,7 +140,7 @@ earthengine authenticate
 </p>
 
 <p align="center">
-  <em>Figure 2: This shows evidence of warming across all countries; however, substantial regional climatic differences remain. Nordic countries continue to experience colder winters and milder summers relative to Southern Europe, implying that electricity demand in the Nordics remains more strongly associated with heating requirements, whereas warmer Southern European climates are increasingly exposed to cooling-related demand pressures under climate change. (Source: ERA5-Land data.) </em>
+  <em>Figure 2: This shows evidence of warming across all countries; however, substantial regional climatic differences remain. Nordic countries continue to experience colder winters and milder summers relative to Southern Europe, implying that electricity demand in the Nordics remains more strongly associated with heating requirements, whereas warmer Southern European climates are increasingly exposed to cooling-related demand pressures under climate change. </em>
 </p>
 
 ---
