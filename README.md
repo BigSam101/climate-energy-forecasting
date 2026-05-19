@@ -109,16 +109,10 @@ These findings are important for:
 
 The `scripts/` folder includes a Google Earth Engine (GEE) script that visualizes regional climate-change patterns using ERA5-Land temperature data.
 
-Instead of comparing two individual years, the tool compares multi-year seasonal averages:
+The tool compares multi-year seasonal averages:
 
 - **Baseline period:** 1990–1999  
 - **Recent period:** 2016–2025  
-
-The figure reports seasonal temperature change as:
-
-\[
-\Delta T = \overline{T}_{2016-2025} - \overline{T}_{1990-1999}
-\]
 
 ### Default comparison:
 - **North:** Norway, Sweden, Finland  
@@ -146,7 +140,7 @@ earthengine authenticate
 </p>
 
 <p align="center">
-  <em>Figure 2: Seasonal near-surface temperature change between 1990–1999 and 2016–2025 across Northern and Southern Europe. Numerical labels indicate country-level average seasonal warming, while colored strips below labels represent recent-period absolute seasonal temperature levels during 2016–2025. </em>
+  <em>Figure 2: This shows evidence of warming across all countries; however, substantial regional climatic differences remain. Nordic countries continue to experience colder winters and milder summers relative to Southern Europe, implying that electricity demand in the Nordics remains more strongly associated with heating requirements, whereas warmer Southern European climates are increasingly exposed to cooling-related demand pressures under climate change. (Source: ERA5-Land data.) </em>
 </p>
 
 ---
