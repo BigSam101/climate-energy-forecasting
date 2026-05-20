@@ -13,13 +13,28 @@ The analysis explicitly accounts for **extreme temperature events**, showing tha
 
 ## ⚙️ Methodology
 
-Two main approaches are compared:
+The project compares multiple forecasting approaches under different weather and demand conditions.
 
-- **SARIMAX** (Seasonal ARIMA with exogenous variables)  
-  → Structured, interpretable, captures temporal dynamics  
+### Statistical Models
+- **SARIMAX Full**  
+  → Includes temperature, extreme weather indicators, holidays, and lagged demand variables.
 
-- **XGBoost** (Extreme Gradient Boosting)  
-  → Flexible, nonlinear machine learning model  
+- **SARIMAX Restricted**  
+  → Parsimonious specification retaining only the most relevant weather and demand drivers.
+
+### Machine Learning Models
+- **XGBoost Full**  
+  → Flexible nonlinear model using the full weather and demand feature set.
+
+- **XGBoost Restricted**  
+  → Reduced feature specification aligned with the restricted SARIMAX setup.
+
+- **XGBoost No Weather**  
+  → Benchmark machine learning specification excluding climate variables.
+
+### Benchmark Model
+- **Seasonal Naïve**
+  → Baseline forecasting benchmark using weekly seasonal persistence.
 
 ---
 
