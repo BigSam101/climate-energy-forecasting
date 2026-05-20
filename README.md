@@ -20,7 +20,7 @@ The project compares multiple forecasting approaches under different weather and
   → Includes temperature, extreme weather indicators, holidays, and lagged demand variables.
 
 - **SARIMAX Restricted**  
-  → Parsimonious specification retaining only the most relevant weather and demand drivers.
+  → Parsimonious specification retaining only the most significant weather and demand drivers.
 
 ### Machine Learning Models
 - **XGBoost Full**  
